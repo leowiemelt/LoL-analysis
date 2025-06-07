@@ -25,7 +25,7 @@ By building a classification model based on these features, we aim not only to m
 # Data Cleaning and EDA
 ### Univariate Analysis
 <iframe
-  src="assets/gamesplayed.html"
+  src="/dsc80-2025-sp/projects/project04/assets/gamesplayed.html"
   width="800"
   height="600"
   frameborder="0"
