@@ -71,9 +71,9 @@ Alternative Hypothesis: Teams with a positive gold difference at 25 minutes win 
 This hypothesis was tested using a permutation test, with the test statistic being a difference in observed win rates between the two groups. The result was a p value of 0.0, suggesting that a positive gold difference at 25 minutes is significantly associated with a higher chance of winning.
 
 ### Do more early kills increase win probability?
-Null Hypothesis: There is no difference in win rate between teams with kd25 ≥ 1 and those with kd25 < 1. Any observed difference is due to random chance.
+**Null Hypothesis:** There is no difference in win rate between teams with kd25 ≥ 1 and those with kd25 < 1. Any observed difference is due to random chance.
 
-Alternative Hypothesis: Teams with kd25 ≥ 1 have a higher win rate than those with kd25 < 1.
+**Alternative Hypothesis:** Teams with kd25 ≥ 1 have a higher win rate than those with kd25 < 1.
 
 This hypothesis was also tested with a permutation test using observed difference in win rate between these two groups as the test statistic. Similarly, the p value was 0.0, potentially indicating that a positive kill-death ratio at 25 minutes is statistically associated with a higher probability of winning.
 
@@ -87,20 +87,21 @@ We developed a binary classification model to predict whether a team will win a 
 ### Features
 **Quantitative features**
 
-golddiffat25: Gold difference at 25 minutes
+    golddiffat25: Gold difference at 25 minutes
 
-xpdiffat25: Experience difference at 25 minutes
+    xpdiffat25: Experience difference at 25 minutes
 
-kda25: Kill-death-assist ratio at 25 minutes
+    kda25: Kill-death-assist ratio at 25 minutes
 
-totaldamageat25: Total damage dealt by the team at 25 minutes
+    totaldamageat25: Total damage dealt by the team at 25 minutes
 
-turretdiffat25: Difference in number of turrets destroyed at 25 minutes
+    turretdiffat25: Difference in number of turrets destroyed at 25 minutes
 
 **Engineered features**
-experienced: A binary feature indicating if the player had played more than 50 games. Created using Binarizer and included as a standalone binary feature.
 
-position: Role or position of a key player (e.g., Top, Jungle, Mid, ADC, Support), encoded using One-Hot Encoder
+    experienced: A binary feature indicating if the player had played more than 50 games. Created using Binarizer and included as a standalone binary feature.
+
+    position: Role or position of a key player (e.g., Top, Jungle, Mid, ADC, Support), encoded using One-Hot Encoder
 
 ### Performance
 Overall, the model recorded a score of .838 using the above features. It shows strong performance on the F1-score metric, indicating a good balance of precision and ability to generalize for unseen data. It includes well-chosen features grounded in domain knowledge, and overall is good at predicting the outcome of sample matches. The high training accuracy indicates that the model is not overfitting.
@@ -110,14 +111,16 @@ Overall, the model recorded a score of .838 using the above features. It shows s
 For the final model, we engineered two new features based on domain knowledge of how League of Legends matches progress:
 
 goldxp: golddiffat25 × xpdiffat25
+
 gamesplayed: Total number of games played by members of a given team
 
 These engineered features align well with the data-generating process in League of Legends, where teams win by converting early/mid-game resource leads into victory. Combining indicators of those leads helps capture game state more holistically. Experience, as demonstrated earlier, is also an uneven trend that can affect a team's chance of winning, and should thus be included in the final model. The addition of these variables caused the final model to outperform the baseline by about 2% in test accuracy.
 
 # Fairness Analysis
 We then determined if our final model is fair with predicting match outcomes based on player experience level. We defined the two groups as low and high experienced, based on if the team has more than 3 "highly experienced" players. We used the difference in precision scores as the metric for our hypotheses.
+
 **Null Hypothesis:** The model is fair, achieves similar precision for both experienced and inexperienced teams.
 
-**Alternative Hypothesis:**The model is unfair, has lower precision for inexperienced teams (Group X) than for experienced teams (Group Y).
+**Alternative Hypothesis:** The model is unfair, has lower precision for inexperienced teams (Group X) than for experienced teams (Group Y).
 
 This resulted in a p-value of .07, meaning we fail to reject the null hypothesis at the .05 significance level. This suggests that there is not enough statistical evidence to conclude that the model is unfair with respect to team experience level. While there may be a small observed difference in precision, it could plausibly be due to random chance rather than a systematic bias in the model.
