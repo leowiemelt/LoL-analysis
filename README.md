@@ -23,6 +23,15 @@ By building a classification model based on these features, we aim not only to m
 
 
 # Data Cleaning and EDA
+### Univariate Analysis
+<iframe
+  src="assets/gamesplayed.html"
+  width="800"
+  height="600"
+  frameborder="0"
+></iframe>
+### Bivariate Analysis
+
 
 # Assessment of Missingness
 
