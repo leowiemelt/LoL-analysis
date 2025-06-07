@@ -30,6 +30,8 @@ By building a classification model based on these features, we aim not only to m
   height="600"
   frameborder="0"
 ></iframe>
+Visualizing the frequency of games played by LoL players shows how professional experience is distributed among the participants. The skewedness of experience is something to take into account when predicting what can contribute to winning a match, especially without using much in-game data.
+
 ### Bivariate Analysis
 
 
