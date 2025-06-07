@@ -25,7 +25,7 @@ By building a classification model based on these features, we aim not only to m
 # Data Cleaning and EDA
 ### Univariate Analysis
 <iframe
-  src="/dsc80-2025-sp/projects/project04/assets/gamesplayed.html"
+  src="assets/gamesplayed.html"
   width="800"
   height="600"
   frameborder="0"
@@ -33,6 +33,24 @@ By building a classification model based on these features, we aim not only to m
 Visualizing the frequency of games played by LoL players shows how professional experience is distributed among the participants. The skewedness of experience is something to take into account when predicting what can contribute to winning a match, especially without using much in-game data.
 
 ### Bivariate Analysis
+<iframe
+  src="assets/quadsquad.html"
+  width="800"
+  height="600"
+  frameborder="0"
+></iframe>
+Observing the distributions of gold and kda metrics at the 15 and 25 minute marks, we see that the winning team typically has a clear advantage in both stats by the 15 minute mark, and this trend is even stronger after 25 minutes.
+
+### Interesting Aggregates
+| Position | Total Gold |
+| ----------- | ----------- |
+| bottom | 13648 |
+| jungle | 10788 |
+| mid | 12591 |
+| support | 7597 |
+| top | 12293 |
+
+This table demonstrates the lesser gold-accumulating nature of jungle and support roles. The differing roles of league of legends players is something we should take into account when considering individual player performance, and gold farming will likely be best examined with respect to these roles.
 
 
 # Assessment of Missingness
