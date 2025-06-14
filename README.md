@@ -1,33 +1,33 @@
 # Analysis of Early Advantages in League of Legends
 
 # Introduction
-In this project, we explore a dataset collected from competitive League of Legends matches, with the goal of understanding how early advantages drive success in these matches, and predicting whether a player will win a match based on their in-game performance data. The dataset includes detailed statistics from thousands of matches, capturing each player's performance at key time intervals (10, 15, and 25 minutes into a match).
+In this analysis, we explore a [dataset](https://drive.google.com/drive/u/1/folders/1gLSw0RLjBbtaNy0dgnGQDAZOHIgCe-HH) collected from competitive League of Legends matches, with the goal of understanding how early advantages drive success in these matches, and predicting whether a player will win a match based on their in-game performance data. The dataset includes detailed statistics from thousands of matches, capturing each player's performance at key time intervals (10, 15, and 25 minutes into a match).
 
-Our central question is: Can we accurately predict whether a player will win a match using only in-game data from the first 25 minutes? And does our model perform fairly across players with different levels of experience? 
+Our central question is: Can we accurately predict whether a team will win a match using only in-game data from the first 25 minutes? 
 
-This question is especially important for game developers, esports analysts, and users. Predictive models can help improve ranked matchmaking, inform coaching decisions, and be used to improve gameplay overall. The dataset contains around 150,000 rows of player and team data, with the following columns being particularly relevant to our analysis:
+This question is especially important for game developers, esports teams, and casual players. Predictive models can help improve ranked matchmaking, inform coaching decisions, and be used to improve gameplay overall. The dataset contains around 150,000 rows of player and team data, with the following columns being particularly relevant to our analysis:
 
-result: Whether the player won the match (True) or lost (False). This is the target variable we aim to predict.
+- **result:** Whether the player won the match (True) or lost (False). This is the target variable we aim to predict.
 
-golddiffat25: The difference in gold between the player’s team and the enemy team at 25 minutes.
+- **golddiffat25:** The difference in gold between the player’s team and the enemy team at 25 minutes.
 
-xpdiffat25: Experience point difference at 25 minutes.
+- **xpdiffat25:** Experience point difference at 25 minutes.
 
-csdiffat25: Creep score (minion kills) difference at 25 minutes.
+- **csdiffat25:** Creep score (minion kills) difference at 25 minutes.
 
-position: The player's role in the match (e.g., top, jungle, mid).
+- **position:** The player's role in the match (e.g., top, jungle, mid).
 
-gamelength: The total length of the match
+- **gamelength:** The total length of the match
 
-By building a classification model based on these features, we aim not only to make accurate predictions, but also to evaluate whether the model is fair—for example, whether its precision is consistent across experienced and inexperienced players.
+By building a classification model based on these features, we aim not only to make accurate predictions, but also to evaluate whether the model is fair-for example, whether its precision is consistent across experienced and inexperienced players.
 
 
 # Data Cleaning and EDA
 ### Univariate Analysis
 <iframe
   src="assets/gamesplayed.html"
-  width="800"
-  height="600"
+  width="400"
+  height="400"
   frameborder="0"
 ></iframe>
 Visualizing the frequency of games played by LoL players shows how professional experience is distributed among the participants. The skewedness of experience is something to take into account when predicting what can contribute to winning a match, especially without using much in-game data.
@@ -35,8 +35,8 @@ Visualizing the frequency of games played by LoL players shows how professional 
 ### Bivariate Analysis
 <iframe
   src="assets/quadsquad.html"
-  width="800"
-  height="600"
+  width="400"
+  height="400"
   frameborder="0"
 ></iframe>
 Observing the distributions of gold and kda metrics at the 15 and 25 minute marks, we see that the winning team typically has a clear advantage in both stats by the 15 minute mark, and this trend is even stronger after 25 minutes.
@@ -64,9 +64,9 @@ When golddiffat25 is missing, killsat25 is always missing as well, not because t
 
 # Hypothesis Testing
 ### Does an early gold lead increase win probability?
-Null Hypothesis: Teams with a positive gold difference at 25 minutes win at the same rate as teams with a negative or zero gold difference. Any observed difference is due to random chance.
+**Null Hypothesis:** Teams with a positive gold difference at 25 minutes win at the same rate as teams with a negative or zero gold difference. Any observed difference is due to random chance.
 
-Alternative Hypothesis: Teams with a positive gold difference at 25 minutes win more often than those with a non-positive gold difference.
+**Alternative Hypothesis:** Teams with a positive gold difference at 25 minutes win more often than those with a non-positive gold difference.
 
 This hypothesis was tested using a permutation test, with the test statistic being a difference in observed win rates between the two groups. The result was a p value of 0.0, suggesting that a positive gold difference at 25 minutes is significantly associated with a higher chance of winning.
 
@@ -108,19 +108,22 @@ Overall, the model recorded a score of .838 using the above features. It shows s
 
 
 # Final Model 
-For the final model, we engineered two new features based on domain knowledge of how League of Legends matches progress:
+For the final model, we added two new features based on domain knowledge of how League of Legends matches progress:
 
-goldxp: golddiffat25 × xpdiffat25
+    goldxp: golddiffat25 × xpdiffat25
 
-gamesplayed: Total number of games played by members of a given team
+    gamesplayed: Total number of games played by members of a given team
 
-These engineered features align well with the data-generating process in League of Legends, where teams win by converting early/mid-game resource leads into victory. Combining indicators of those leads helps capture game state more holistically. Experience, as demonstrated earlier, is also an uneven trend that can affect a team's chance of winning, and should thus be included in the final model. The addition of these variables caused the final model to outperform the baseline by about 2% in test accuracy.
+These features align well with the data-generating process in League of Legends, where teams win by converting early/mid-game resource leads into victory. Combining indicators of those leads helps capture game state more holistically. Experience, as demonstrated earlier, is also an uneven trend that can affect a team's chance of winning, and should thus be included in the final model. The addition of these variables caused the final model to outperform the baseline by about 2% in test accuracy.
 
 # Fairness Analysis
-We then determined if our final model is fair with predicting match outcomes based on player experience level. We defined the two groups as low and high experienced, based on if the team has more than 3 "highly experienced" players. We used the difference in precision scores as the metric for our hypotheses.
+We then determined if our final model is fair with predicting match outcomes based on player experience level. We defined the two groups as low and high experienced, based on if the team has more than 3 "highly experienced" players. We used the difference in accuracy scores as the metric for our hypotheses.
 
 **Null Hypothesis:** The model is fair, achieves similar precision for both experienced and inexperienced teams.
 
 **Alternative Hypothesis:** The model is unfair, has lower precision for inexperienced teams (Group X) than for experienced teams (Group Y).
 
 This resulted in a p-value of .07, meaning we fail to reject the null hypothesis at the .05 significance level. This suggests that there is not enough statistical evidence to conclude that the model is unfair with respect to team experience level. While there may be a small observed difference in precision, it could plausibly be due to random chance rather than a systematic bias in the model.
+
+var
+: this is a variable
