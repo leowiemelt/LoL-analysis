@@ -7,22 +7,22 @@ Our central question is: Can we accurately predict whether a team will win a mat
 
 This question is especially important for game developers, esports teams, and casual players. Predictive models can help improve ranked matchmaking, inform coaching decisions, and be used to improve gameplay overall. The dataset contains around 150,000 rows of player and team data, with the following columns being particularly relevant to our analysis:
 
-**result:** 
-: Whether the player won the match (True) or lost (False). This is the target variable we aim to predict.
+    **result** 
+    : Whether the player won the match (True) or lost (False). This is the target variable we aim to predict.
 
-**golddiffat25:** 
-: The difference in gold between the player’s team and the enemy team at 25 minutes.
+    **golddiffat25** 
+    : The difference in gold between the player’s team and the enemy team at 25 minutes.
 
-**xpdiffat25:** 
-: Experience point difference at 25 minutes.
+    **xpdiffat25** 
+    : Experience point difference at 25 minutes.
 
-**csdiffat25:** 
-: Creep score (minion kills) difference at 25 minutes.
+    **csdiffat25** 
+    : Creep score (minion kills) difference at 25 minutes.
 
-**position:** 
-: The player's role in the match (e.g., top, jungle, mid).
+    **position** 
+    : The player's role in the match (e.g., top, jungle, mid).
 
-**gamelength:** 
+**gamelength** 
 : The total length of the match
 
 # Data Cleaning and EDA
